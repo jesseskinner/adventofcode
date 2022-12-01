@@ -1,21 +1,22 @@
-import { createReadStream } from 'fs';
 import split from 'split';
 
-//const lines = readFileSync('./input.txt', 'utf8').split("\n");
-
-let max = 0;
-let current = 0;
+const elves = [];
+let elf = 0;
 
 process.stdin
 	.pipe(split())
 	.on('data', (line) => {
 		if (line === '') {
-			current = 0;
+			elves.push(elf);
+			elf = 0;
 		} else {
-			current += +line;
+			elf += +line;
 		}
-		max = Math.max(max, current);
 	})
 	.on('end', () => {
-		console.log(max);
+		elves.push(elf);
+		elves.sort((a, b) => b - a);
+
+		const top3 = elves.slice(0, 3);
+		console.log(top3.reduce((a, b) => a + b, 0));
 	});
