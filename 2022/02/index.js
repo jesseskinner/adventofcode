@@ -1,9 +1,9 @@
 import split from 'split';
 
 const points = {
-	X: 1, // rock A
-	Y: 2, // paper B
-	Z: 3, // scissors C
+	A: 1, // rock A
+	B: 2, // paper B
+	C: 3, // scissors C
 };
 
 const WIN = 6;
@@ -14,37 +14,40 @@ let score = 0;
 process.stdin
 	.pipe(split())
 	.on('data', (line) => {
-		const [them, me] = line.split(' ');
+		const [them, goal] = line.split(' ');
 
 		if (!them) {
 			return;
 		}
 
+		let me;
+
+		if (goal === 'X') {
+			// lose
+			if (them === 'A') {
+				me = 'C';
+			} else if (them === 'B') {
+				me = 'A';
+			} else {
+				me = 'B';
+			}
+		} else if (goal === 'Y') {
+			// draw
+			me = them;
+			score += DRAW;
+		} else if (goal === 'Z') {
+			// win
+			if (them === 'A') {
+				me = 'B';
+			} else if (them === 'B') {
+				me = 'C';
+			} else {
+				me = 'A';
+			}
+			score += WIN;
+		}
+
 		score += points[me];
-
-		if (them === 'A') {
-			if (me === 'X') {
-				score += DRAW;
-			} else if (me === 'Y') {
-				score += WIN;
-			}
-		}
-
-		if (them === 'B') {
-			if (me === 'Y') {
-				score += DRAW;
-			} else if (me === 'Z') {
-				score += WIN;
-			}
-		}
-
-		if (them === 'C') {
-			if (me === 'Z') {
-				score += DRAW;
-			} else if (me === 'X') {
-				score += WIN;
-			}
-		}
 	})
 	.on('end', () => {
 		console.log(score);
