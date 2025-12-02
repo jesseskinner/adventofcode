@@ -23,7 +23,7 @@ function invalid(num) {
   for (let d = 2; d <= num.length; d++) {
     if (
       num.length % d === 0 &&
-      Array.from(Array(d), () => num.slice(0, num.length / d)).join("") === num
+      num.slice(0, num.length / d).repeat(d) === num
     ) {
       return true;
     }
