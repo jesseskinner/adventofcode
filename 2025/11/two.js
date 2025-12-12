@@ -1,7 +1,6 @@
 import split from "split";
 
 const rack = {};
-const reverse = {};
 
 process.stdin
   .pipe(split())
@@ -10,10 +9,6 @@ process.stdin
     const outputs = output.split(" ");
 
     rack[device] = outputs;
-
-    // for (let o of outputs) {
-    //   if (!(o in reverse))[o] = reverse[o], device];
-    // }
   })
   .on("end", () => {
     console.log(
